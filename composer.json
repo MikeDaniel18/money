@@ -1,0 +1,41 @@
+{
+    "name": "browner12/money",
+    "description": "money value object for php",
+    "keywords": [
+        "money",
+        "php"
+    ],
+    "homepage": "https://github.com/browner12/money",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Brown",
+            "email": "browner12@gmail.com",
+            "homepage": "https://github.com/browner12",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php" : ">=5.4.0",
+        "ext-intl" : "*"
+    },
+    "require-dev": {
+        "league/commonmark": "0.*",
+        "phpunit/phpunit" : "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "browner12\\money\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "browner12\\money\\Test\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
