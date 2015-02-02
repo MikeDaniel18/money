@@ -252,15 +252,46 @@ class Accountant {
 
         //give each division an equal amount
         for($a=1;$a<=$divisions;$a++){
-            $return[] = $allocation;
+
+            //gets a remainder
+            if($a <= $remainder){
+                $return[] = new Money($allocation + 1);
+            }
+
+            //does not get a remainder
+            else{
+                $return[] = new Money($allocation);
+            }
         }
 
-        //and then hand out the remainder
-        for($b=0;$b<$remainder;$b++){
-            $return[$b]++;
+        //return
+        return $return;
+    }
+
+    /**
+     * allocate by ratios
+     *
+     * @todo WIP
+     * @param \browner12\money\Money $money
+     * @param array $ratios
+     * @return array
+     */
+    public function allocateByRatios(Money $money, $ratios){
+
+        //total
+        $total = array_sum($ratios);
+
+        //loop
+        foreach($ratios as $ratio){
+            $allocations[] = $money->subunits() * $ratio / $total;
         }
 
-        //
+        //make new money objects
+        foreach($allocations as $allocation){
+            $return[] = new Money($allocation, $money->getCurrency()->currency());
+        }
+
+        //return
         return $return;
     }
 
