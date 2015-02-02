@@ -3,6 +3,7 @@
 use browner12\money\Accountant;
 use browner12\money\exceptions\MoneyException;
 use browner12\money\Money;
+use Mockery;
 
 class AccountantTest extends \PHPUnit_Framework_TestCase {
 
@@ -21,6 +22,13 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
 
         //assign
         $this->accountant = new Accountant();
+    }
+
+    /**
+     * tear down
+     */
+    public function tearDown(){
+        Mockery::close();
     }
 
     /**
@@ -197,6 +205,86 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $tax, 'Accountant is not calculating tax correctly.');
     }
 
+    /**
+     * calculates subtotal
+     */
+    public function testCalculatesSubtotalCorrectly(){
+
+        //setup
+        $line = Mockery::mock('OrderLine');
+        $line->shouldReceive('getQuantity')->once()->andReturn(1);
+        $line->shouldReceive('getUnitPrice')->once()->andReturn(new Money(199));
+
+        $line2 = Mockery::mock('OrderLine');
+        $line2->shouldReceive('getQuantity')->once()->andReturn(3);
+        $line2->shouldReceive('getUnitPrice')->once()->andReturn(new Money(1250));
+
+        $line3 = Mockery::mock('OrderLine');
+        $line3->shouldReceive('getQuantity')->once()->andReturn(2);
+        $line3->shouldReceive('getUnitPrice')->once()->andReturn(new Money(2113));
+
+        //calculate subtotal
+        $subtotal = $this->accountant->subtotal([$line, $line2, $line3]);
+
+        //expected
+        $expected = new Money(8175);
+
+        //test
+        $this->assertEquals($expected, $subtotal, 'Accountant is not calculating a subtotal correctly.');
+    }
+
+    /**
+     * calculates subtotal from array
+     */
+    public function testCalculatesSubtotalFromArrayCorrectly(){
+
+        //setup
+        $lines = [
+            ['quantity' => 1, 'unitPrice' => new Money(199)],
+            ['quantity' => 3, 'unitPrice' => new Money(1250)],
+            ['quantity' => 2, 'unitPrice' => new Money(2113)],
+        ];
+
+        //calculate subtotal
+        $subtotal = $this->accountant->subtotalFromArray($lines);
+
+        //expected value
+        $expected = new Money(8175);
+
+        //test
+        $this->assertEquals($expected, $subtotal, 'Accountant is not calculating the subtotal from an array correctly.');
+    }
+
+    /**
+     * calculates total
+     */
+    public function testCalculatesTotalCorrectly(){
+
+        //setup
+        $line = Mockery::mock('OrderLine');
+        $line->shouldReceive('getQuantity')->once()->andReturn(1);
+        $line->shouldReceive('getUnitPrice')->once()->andReturn(new Money(1499));
+
+        $line2 = Mockery::mock('OrderLine');
+        $line2->shouldReceive('getQuantity')->once()->andReturn(3);
+        $line2->shouldReceive('getUnitPrice')->once()->andReturn(new Money(299));
+
+        $line3 = Mockery::mock('OrderLine');
+        $line3->shouldReceive('getQuantity')->once()->andReturn(2);
+        $line3->shouldReceive('getUnitPrice')->once()->andReturn(new Money(525));
+
+        $shipping = new Money(375);
+        $handling = new Money(100);
+
+        //calculate subtotal
+        $subtotal = $this->accountant->total([$line, $line2, $line3], 5.5, $shipping, $handling);
+
+        //expected
+        $expected = new Money(4111);
+
+        //test
+        $this->assertEquals($expected, $subtotal, 'Accountant is not calculating total correctly.');
+
     }
 
     /**
@@ -256,6 +344,33 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expectation2, $allocations[4], $message);
     }
 
+    /**
+     * allocates by ratios correctly
+     */
+    public function testAllocatesByRatiosCorrectly(){
+
+        //create money
+        $money = new Money(1000);
+
+        //ratios
+        $ratios = [50, 100, 500, 350];
+
+        //allocate money
+        $allocations = $this->accountant->allocateByRatios($money, $ratios);
+
+        //haystack
+        foreach($allocations as $allocation){
+            $haystack[] = $allocation->subunits();
+        }
+
+        //message
+        $message = 'Accountant is not allocating by ratios correctly.';
+
+        //test
+        $this->assertContains(50, $haystack, $message);
+        $this->assertContains(100, $haystack, $message);
+        $this->assertContains(500, $haystack, $message);
+        $this->assertContains(350, $haystack, $message);
     }
 
     /**
@@ -361,6 +476,28 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         }
 
         $this->fail('Accountant is not catching unmatched currencies.');
+    }
+
+    /**
+     * filters monies that are not instances of Money
+     */
+    public function testFiltersMonies(){
+
+        //setup
+        $money1 = new Money(100);
+        $money2 = new Money(200);
+
+        $bad1 = null;
+        $bad2 = new \stdClass();
+
+        //run
+        $sum = $this->accountant->sum([$money1, $bad1, $money2, $bad2]);
+
+        //expected
+        $expected = new Money(300);
+
+        //test
+        $this->assertEquals($expected, $sum, 'Accountant is not filtering monies correctly.');
     }
 
 }
