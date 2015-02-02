@@ -114,8 +114,13 @@ class MoneyTest extends \PHPUnit_Framework_TestCase {
         $money2 = new Money(123.5, 'usd');
         $money3 = new Money(123.6, 'usd');
 
+        //message
+        $message = 'Money is not setting float values correctly.';
+
         //test
-        $this->assertSame(123, $money->subunits(), 'Money is not setting float values correctly.');
+        $this->assertSame(123, $money->subunits(), $message);
+        $this->assertSame(124, $money2->subunits(), $message);
+        $this->assertSame(124, $money3->subunits(), $message);
     }
 
     /**
@@ -155,7 +160,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase {
     public function testsOutsideIntegerBounds(){
 
         try{
-            $money = new Money(9223372036854775808, 'usd');
+            new Money(9223372036854775808, 'usd');
         }
 
         catch(MoneyException $e){
@@ -175,7 +180,8 @@ class MoneyTest extends \PHPUnit_Framework_TestCase {
 
         //expected value
         $expectedValue = [
-            'amount' => 12.34,
+            'value' => 12.34,
+            'subunits' => 1234,
             'currency' => 'USD',
         ];
 
