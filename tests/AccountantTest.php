@@ -76,8 +76,11 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //sum them
         $total = $this->accountant->sum($monies);
 
+        //expected
+        $expected = new Money(6689);
+
         //test
-        $this->assertSame(6689, $total->subunits(), 'Accountant is not summing monies correctly.');
+        $this->assertEquals($expected, $total, 'Accountant is not summing monies correctly.');
     }
 
     /**
@@ -92,8 +95,11 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //calculate total
         $total = $this->accountant->add($money1, $money2);
 
+        //expected
+        $expected = new Money(3579);
+
         //test
-        $this->assertSame(3579, $total->subunits(), 'Accountant is not adding monies correctly.');
+        $this->assertEquals($expected, $total, 'Accountant is not adding monies correctly.');
     }
 
     /**
@@ -109,9 +115,16 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $total1 = $this->accountant->subtract($money1, $money2);
         $total2 = $this->accountant->subtract($money2, $money1);
 
+        //expected
+        $expected1 = new Money(-1111);
+        $expected2 = new Money(1111);
+
+        //message
+        $message = 'Accountant is not subtracting monies correctly.';
+
         //test
-        $this->assertSame(-1111, $total1->subunits(), 'Accountant is not subtracting monies correctly.');
-        $this->assertSame(1111, $total2->subunits(), 'Accountant is not subtracting monies correctly.');
+        $this->assertEquals($expected1, $total1, $message);
+        $this->assertEquals($expected2, $total2, $message);
     }
 
     /**
@@ -125,8 +138,11 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //multiply
         $product = $this->accountant->multiply($money, 0.055);
 
+        //expected
+        $expected = new Money(68);
+
         //test
-        $this->assertSame(68, $product->subunits(), 'Accountant is not multiplying money correctly.');
+        $this->assertEquals($expected, $product, 'Accountant is not multiplying money correctly.');
     }
 
     /**
@@ -140,8 +156,11 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //discount
         $discount = $this->accountant->discount($money, 10);
 
+        //expected
+        $expected = new Money(1111);
+
         //test
-        $this->assertSame(1111, $discount->subunits(), 'Accountant is not discounting money correctly.');
+        $this->assertEquals($expected, $discount, 'Accountant is not discounting money correctly.');
     }
 
     /**
@@ -155,15 +174,11 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //negate
         $newMoney = $this->accountant->negate($money);
 
-        //test
-        $this->assertSame(-1234, $newMoney->subunits(), 'Accountant is not negating money correctly.');
-    }
+        //expected
+        $expected = new Money(-1234);
 
-    /**
-     *
-     */
-    public function testCalculatesOrderTotalCorrectly(){
-        return;
+        //test
+        $this->assertEquals($expected, $newMoney, 'Accountant is not negating money correctly.');
     }
 
     /**
@@ -177,8 +192,13 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //calculate tax
         $tax = $this->accountant->tax($money, 5.5);
 
-        //
-        $this->assertSame(68, $tax->subunits(), 'Accountant is not calculating tax correctly.');
+        //expected
+        $expected = new Money(68);
+
+        //test
+        $this->assertEquals($expected, $tax, 'Accountant is not calculating tax correctly.');
+    }
+
     }
 
     /**
@@ -192,6 +212,9 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //allocate money
         $allocations = $this->accountant->allocate($money, 5);
 
+        //expected
+        $expected = new Money(300);
+
         //message
         $message = 'Accountant is not allocating money correctly.';
 
@@ -199,11 +222,11 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(5, count($allocations), $message);
 
         //allocations are of correct value
-        $this->assertSame(300, $allocations[0], $message);
-        $this->assertSame(300, $allocations[1], $message);
-        $this->assertSame(300, $allocations[2], $message);
-        $this->assertSame(300, $allocations[3], $message);
-        $this->assertSame(300, $allocations[4], $message);
+        $this->assertEquals($expected, $allocations[0], $message);
+        $this->assertEquals($expected, $allocations[1], $message);
+        $this->assertEquals($expected, $allocations[2], $message);
+        $this->assertEquals($expected, $allocations[3], $message);
+        $this->assertEquals($expected, $allocations[4], $message);
     }
 
     /**
@@ -217,6 +240,10 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         //allocate money
         $allocations = $this->accountant->allocate($money, 7);
 
+        //expectations
+        $expectation1 = new Money(220);
+        $expectation2 = new Money(219);
+
         //message
         $message = 'Accountant is not allocating money correctly.';
 
@@ -224,11 +251,13 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $this->assertSame(7, count($allocations), $message);
 
         //allocations are of correct value
-        $this->assertSame(220, $allocations[0], $message);
-        $this->assertSame(220, $allocations[1], $message);
-        $this->assertSame(220, $allocations[2], $message);
-        $this->assertSame(219, $allocations[3], $message);
-        $this->assertSame(219, $allocations[4], $message);
+        $this->assertEquals($expectation1, $allocations[0], $message);
+        $this->assertEquals($expectation1, $allocations[1], $message);
+        $this->assertEquals($expectation1, $allocations[2], $message);
+        $this->assertEquals($expectation2, $allocations[3], $message);
+        $this->assertEquals($expectation2, $allocations[4], $message);
+    }
+
     }
 
     /**
