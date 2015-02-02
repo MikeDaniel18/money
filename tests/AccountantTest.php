@@ -1,6 +1,4 @@
-<?php
-
-namespace browner12\money\tests;
+<?php namespace browner12\money\tests;
 
 use browner12\money\Accountant;
 use browner12\money\exceptions\MoneyException;
@@ -182,7 +180,7 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
-     *
+     * calculates tax
      */
     public function testCalculatesTaxCorrectly(){
 
