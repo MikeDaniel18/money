@@ -7,11 +7,11 @@ use NumberFormatter;
 class Money implements JsonSerializable {
 
 	/**
-	 * value in smallest unit
+	 * subunits
 	 *
 	 * @var int
 	 */
-	private $value;
+	private $subunits;
 
 	/**
 	 * currency
@@ -25,32 +25,38 @@ class Money implements JsonSerializable {
 	 *
 	 * @param int $value
 	 * @param string $currency
+	 * @param bool $convert
+	 * @throws \browner12\money\exceptions\MoneyException
 	 */
-	public function __construct($value, $currency = 'usd'){
+	public function __construct($value, $currency = 'usd', $convert = false){
 
 		//set currency
 		$this->setCurrency($currency);
 
 		//set value
-		$this->setValue($value);
+		$this->setValue($value, $convert);
 	}
 
 	/**
 	 * get value
 	 *
+	 * this is a float value in the base unit of the currency
+	 *
 	 * @return float
 	 */
 	public function value(){
-		return round($this->value / $this->currency->subunit(), $this->currency->precision());
+		return round($this->subunits / $this->currency->subunit(), $this->currency->precision());
 	}
 
 	/**
 	 * get subunit value
 	 *
+	 * this is an integer value in the sub unit of the currency
+	 *
 	 * @return int
 	 */
 	public function subunits(){
-		return $this->value;
+		return $this->subunits;
 	}
 
 	/**
@@ -78,32 +84,41 @@ class Money implements JsonSerializable {
 	}
 
 	/**
+	 * set the value of the money object
+	 *
+	 * we will assumed the value is passed to us in the subunit value i.e. USDs will be passed as cents
+	 * if the user wants us to try and convert from the base unit (USD), we will.
+	 *
 	 * @param int $value
+	 * @param bool $convert
 	 * @throws \browner12\money\exceptions\MoneyException
 	 */
-	private function setValue($value){
+	private function setValue($value, $convert = false){
 
 		//check in bounds
 		$this->isInsideIntegerBounds($value);
 
 		//value is integer, simply assign
 		if(is_int($value)){
-			$this->value = $value;
+			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
 		}
 
 		//value is float, convert and assign
 		elseif(is_float($value)){
-			$this->value = (int) round($value, 0);
+			$value = (int) round($value, 0);
+			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
 		}
 
 		//value is an integer string
 		elseif(preg_match('/^[0-9]+$/', $value)){
-			$this->value = (int) $value;
+			$value = (int) $value;
+			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
 		}
 
 		//value is a float string
 		elseif(preg_match('/^[0-9]+(\.[0-9]+)?$/', $value)){
-			$this->value = (int) round($value, 0);
+			$value = (int) round($value, 0);
+			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
 		}
 
 		//problem
@@ -163,7 +178,8 @@ class Money implements JsonSerializable {
 	public function jsonSerialize(){
 
 		return [
-			'amount' => $this->value(),
+			'value' => $this->value(),
+			'subunits' => $this->subunits(),
 			'currency' => $this->currency->currency(),
 		];
 	}
