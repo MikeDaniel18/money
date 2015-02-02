@@ -3,8 +3,6 @@
 [![Latest Version](https://img.shields.io/github/release/browner12/money.svg?style=flat-square)](https://github.com/browner12/money/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Build Status](https://img.shields.io/travis/browner12/money/master.svg?style=flat-square)](https://travis-ci.org/browner12/money)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/browner12/money.svg?style=flat-square)](https://scrutinizer-ci.com/g/browner12/money/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/browner12/money.svg?style=flat-square)](https://scrutinizer-ci.com/g/browner12/money)
 [![Total Downloads](https://img.shields.io/packagist/dt/browner12/money.svg?style=flat-square)](https://packagist.org/packages/browner12/money)
 
 This package deals with money. It includes a `Money` value object, a `Currency`, and an `Accountant`. Understanding the difference between this 3 classes is important. The way these classes relate to each other is what makes this package different from some of the existing PHP money packages available. `Money` is composed of two attributes: a numeric value, and a `Currency`. The `Currency` is a descriptor. It knows nothing about the value, but provides `Money` with the information it needs to describe the value. The `Accountant` handles your `Money`. He can perform many calculations with your `Money`, including adding and subtracting, summing, allocating, and calculating tax rates.
