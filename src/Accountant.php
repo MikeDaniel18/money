@@ -155,6 +155,54 @@ class Accountant {
     }
 
     /**
+     * calculate subtotal of a cart
+     *
+     * each element of the line array must implement \browner12\money\interfaces\OrderLineInterface
+     *
+     * @param array $lines
+     * @return \browner12\money\Money
+     */
+    public function subtotal($lines){
+
+        //get line totals
+        foreach($lines as $line){
+            $lineTotals[] = $this->multiply($line->getUnitPrice(), $line->getQuantity());
+        }
+
+        //sum the line totals
+        return $this->sum($lineTotals);
+    }
+
+    /**
+     * calculate cart total
+     *
+     * this a helper function, basically a wrapper for some others
+     *
+     * @param array $lines
+     * @param $taxRate
+     * @param \browner12\money\Money $shipping
+     * @param \browner12\money\Money $handling
+     * @return \browner12\money\Money
+     */
+    public function total($lines, $taxRate, Money $shipping = null, Money $handling = null){
+
+        //calculate subtotal
+        $subtotal = $this->subtotal($lines);
+
+        //calculate tax
+        $tax = $this->tax($subtotal, $taxRate);
+
+        //total
+        $total[] = $subtotal;
+        $total[] = $tax;
+        ($shipping) ? $total[] = $shipping : null;
+        ($handling) ? $total[] = $handling : null;
+
+        //calculate total
+        return $this->sum([$subtotal, $tax, $shipping, $handling]);
+    }
+
+    /**
      * allocate
      *
      * @param \browner12\money\Money $money
