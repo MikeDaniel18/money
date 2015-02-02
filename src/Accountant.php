@@ -34,6 +34,9 @@ class Accountant {
         //initialize total
         $total = 0;
 
+        //filter monies
+        $monies = $this->filterMonies($monies);
+
         //check currencies
         $currency = $this->isSameCurrency($monies);
 
@@ -354,6 +357,27 @@ class Accountant {
 
         //set it
         $this->roundingMode = $roundingMode;
+    }
+
+    /**
+     * filter an array to exclude anything that is not a Money
+     * since we can not type hint elements of array
+     *
+     * @param array $monies
+     * @return array
+     */
+    private function filterMonies($monies){
+
+        //remove any elements that are not money objects
+        foreach($monies as $money){
+
+            if($money instanceof Money AND !is_null($money)){
+                $filteredMonies[] = $money;
+            }
+        }
+
+        //return filtered array
+        return $filteredMonies;
     }
 
 }
