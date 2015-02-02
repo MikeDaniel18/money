@@ -26,6 +26,39 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * throws exception for invalid rounding mode
+     */
+    public function testThrowsExceptionsForInvalidRoundingMode(){
+
+        try{
+            new Accountant('invalidRoundingMode');
+        }
+        catch(MoneyException $e){
+            return true;
+        }
+
+        $this->fail('Accountant is not catching invalid rounding modes.');
+    }
+
+    /**
+     * sets rounding mode correctly
+     */
+    public function testSetsValidRoundingMode(){
+
+        try{
+            new Accountant(PHP_ROUND_HALF_DOWN);
+            new Accountant(PHP_ROUND_HALF_EVEN);
+            new Accountant(PHP_ROUND_HALF_ODD);
+        }
+        catch(MoneyException $e){
+            $this->fail('Accountant is not recognizing valid rounding modes.');
+        }
+
+        return true;
+
+    }
+
+    /**
      * sums monies correctly
      */
     public function testSumsMoniesCorrectly(){
@@ -93,7 +126,7 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $product = $this->accountant->multiply($money, 0.055);
 
         //test
-        $this->assertSame(67.87, $product->subunits(), 'Accountant is not multiplying money correctly.');
+        $this->assertSame(68, $product->subunits(), 'Accountant is not multiplying money correctly.');
     }
 
     /**
@@ -108,7 +141,7 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $discount = $this->accountant->discount($money, 10);
 
         //test
-        $this->assertSame(1111.6, $discount->subunits());
+        $this->assertSame(1111, $discount->subunits(), 'Accountant is not discounting money correctly.');
     }
 
     /**
@@ -142,10 +175,10 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $money = new Money(1234, 'usd');
 
         //calculate tax
-        $tax = $this->accountant->tax($money, 0.055);
+        $tax = $this->accountant->tax($money, 5.5);
 
         //
-        $this->assertSame(68, $tax, 'Accountant is not calculating tax correctly.');
+        $this->assertSame(68, $tax->subunits(), 'Accountant is not calculating tax correctly.');
     }
 
     /**
@@ -278,7 +311,7 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
 
         //test
         $this->assertSame(true, $this->accountant->isEqualTo($money1, $money3));
-        $this->assertSame(false, $this->accountant->isLessThan($money1, $money2));
+        $this->assertSame(false, $this->accountant->isEqualTo($money1, $money2));
     }
 
     /**

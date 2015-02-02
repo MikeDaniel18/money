@@ -6,9 +6,22 @@ use browner12\money\Money;
 class Accountant {
 
     /**
-     * constructor
+     * rounding mode
+     *
+     * @var string
      */
-    public function __construct(){}
+    private $roundingMode;
+
+    /**
+     * constructor
+     *
+     * @param int $roundingMode
+     */
+    public function __construct($roundingMode = PHP_ROUND_HALF_UP){
+
+        //set rounding mode
+        $this->setRoundingMode($roundingMode);
+    }
 
     /**
      * calculate the sum of monies
@@ -81,7 +94,7 @@ class Accountant {
     public function multiply(Money $multiplicand, $multiplier){
 
         //calculate product
-        $product = $multiplicand->subunits() * $multiplier;
+        $product = (int) round($multiplicand->subunits() * $multiplier, 0, $this->roundingMode);
 
         //create and return new money
         return new Money($product, $multiplicand->getCurrency()->currency());
@@ -109,16 +122,16 @@ class Accountant {
      * a new money object worth $95.
      *
      * @param \browner12\money\Money $money
-     * @param int $percentage
+     * @param float $percentage
      * @return \browner12\money\Money
      */
     public function discount(Money $money, $percentage){
 
-        //get subtrahend
-        $subtrahend = $this->multiply($money, $percentage);
+        //determine multiplier
+        $multiplier = (100 - $percentage) / 100;
 
-        //subtract off discount
-        return $this->subtract($money, $subtrahend);
+        //return discounted value
+        return $this->multiply($money, $multiplier);
     }
 
     /**
@@ -176,16 +189,16 @@ class Accountant {
     /**
      * exchange one currency for another
      *
-     * @todo work in progress, DO NOT USE THIS
+     * @todo work in progress, DO NOT USE
      * @param \browner12\money\Money $money
-     * @param $newCurrency
+     * @param string $newCurrency
      * @param float $exchangeRate
      * @return \browner12\money\Money
      */
     public function exchange(Money $money, $newCurrency, $exchangeRate){
 
         //get new value
-        $newValue = (int) round($money->subunits() * $exchangeRate, 0);
+        $newValue = (int) round($money->subunits() * $exchangeRate, 0, $this->roundingMode);
 
         //create and return the new money
         return new Money($newValue, $newCurrency);
@@ -268,6 +281,31 @@ class Accountant {
 
         //give back the currency
         return $currencyToMatch;
+    }
+
+    /**
+     * set the rounding mode
+     *
+     * @param int $roundingMode
+     * @throws \browner12\money\exceptions\MoneyException
+     */
+    private function setRoundingMode($roundingMode){
+
+        //rounding modes
+        $modes = [
+            PHP_ROUND_HALF_UP,
+            PHP_ROUND_HALF_DOWN,
+            PHP_ROUND_HALF_EVEN,
+            PHP_ROUND_HALF_ODD,
+        ];
+
+        //check that it is valid
+        if(!in_array($roundingMode, $modes)){
+            throw new MoneyException('Invalid rounding mode.');
+        }
+
+        //set it
+        $this->roundingMode = $roundingMode;
     }
 
 }

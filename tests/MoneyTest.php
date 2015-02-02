@@ -110,10 +110,12 @@ class MoneyTest extends \PHPUnit_Framework_TestCase {
     public function testSetsFloatValueCorrectly(){
 
         //create money
-        $money = new Money(123.45, 'usd');
+        $money = new Money(123.4, 'usd');
+        $money2 = new Money(123.5, 'usd');
+        $money3 = new Money(123.6, 'usd');
 
         //test
-        $this->assertSame(12345, $money->subunits(), 'Money is not setting float values correctly.');
+        $this->assertSame(123, $money->subunits(), 'Money is not setting float values correctly.');
     }
 
     /**
@@ -134,10 +136,17 @@ class MoneyTest extends \PHPUnit_Framework_TestCase {
     public function testSetsStringFloatValueCorrectly(){
 
         //create money
-        $money = new Money('123.45', 'usd');
+        $money = new Money('123.4', 'usd');
+        $money2 = new Money('123.5', 'usd');
+        $money3 = new Money('123.6', 'usd');
+
+        //message
+        $message = 'Money is not setting string float values correctly.';
 
         //test
-        $this->assertSame(12345, $money->subunits(), 'Money is not setting string float values correctly.');
+        $this->assertSame(123, $money->subunits(), $message);
+        $this->assertSame(124, $money2->subunits(), $message);
+        $this->assertSame(124, $money3->subunits(), $message);
     }
 
     /**

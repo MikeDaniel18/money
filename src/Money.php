@@ -83,8 +83,6 @@ class Money implements JsonSerializable {
 	 */
 	private function setValue($value){
 
-		echo $value;
-
 		//check in bounds
 		$this->isInsideIntegerBounds($value);
 
@@ -95,7 +93,7 @@ class Money implements JsonSerializable {
 
 		//value is float, convert and assign
 		elseif(is_float($value)){
-			$this->value = (int) round($value / $this->currency->subunit(), 0);
+			$this->value = (int) round($value, 0);
 		}
 
 		//value is an integer string
@@ -105,7 +103,7 @@ class Money implements JsonSerializable {
 
 		//value is a float string
 		elseif(preg_match('/^[0-9]+(\.[0-9]+)?$/', $value)){
-			$this->value = (int) round($value / $this->currency->subunit(), 0);
+			$this->value = (int) round($value, 0);
 		}
 
 		//problem
@@ -137,6 +135,11 @@ class Money implements JsonSerializable {
 	/**
 	 * check that value is inside integer bounds
 	 *
+	 * this seems to be difficult/impossible to test for, since integers above the bounds
+	 * are converted to floats internally. the float is not evaluating greater than the
+	 * PHP_INT_MAX. it is however evaluating equal to. therefore we'll test >= for now
+	 * and just miss out on that 1 extra integer
+	 *
 	 * @param integer $value
 	 * @return bool
 	 * @throws \browner12\money\exceptions\MoneyException
@@ -144,8 +147,8 @@ class Money implements JsonSerializable {
 	private function isInsideIntegerBounds($value){
 
 		//outside of bounds
-		if(abs($value) > PHP_INT_MAX){
-			throw new MoneyException('Value is outside of PHP Integer Max.');
+		if(abs($value) >= PHP_INT_MAX){
+			throw new MoneyException('Value is outside of PHP integer bounds.');
 		}
 
 		//inside of bounds
