@@ -1,6 +1,7 @@
 <?php  namespace browner12\money;
 
 use browner12\money\exceptions\MoneyException;
+use browner12\money\interfaces\OrderLineInterface;
 use browner12\money\Money;
 
 class Accountant {
@@ -167,9 +168,35 @@ class Accountant {
      */
     public function subtotal($lines){
 
-        //get line totals
+        //calculate line totals
         foreach($lines as $line){
             $lineTotals[] = $this->multiply($line->getUnitPrice(), $line->getQuantity());
+        }
+
+        //sum the line totals
+        return $this->sum($lineTotals);
+    }
+
+    /**
+     * calculate subtotal of cart
+     *
+     * if you do not wish to use the provided OrderLineInterface, you can manually pass in an array
+     * in the following format:
+     *
+     * $lines = [
+     *      ['quantity' => 2, 'unitPrice' => new Money(100)],
+     *      ['quantity' => 1, 'unitPrice' => new Money(200)],
+     *      ['quantity' => 3, 'unitPrice' => new Money(300)],
+     * ]
+     *
+     * @param array $lines
+     * @return \browner12\money\Money
+     */
+    public function subtotalFromArray($lines){
+
+        //calculate line totals
+        foreach($lines as $line){
+            $lineTotals[] = $this->multiply($line['unitPrice'], $line['quantity']);
         }
 
         //sum the line totals
