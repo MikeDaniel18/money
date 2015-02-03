@@ -298,7 +298,8 @@ class Accountant {
     /**
      * exchange one currency for another
      *
-     * @todo work in progress, DO NOT USE
+     * the exchange rate is in terms of 1 original currency = x new currency
+     *
      * @param \browner12\money\Money $money
      * @param string $newCurrency
      * @param float $exchangeRate
@@ -307,10 +308,10 @@ class Accountant {
     public function exchange(Money $money, $newCurrency, $exchangeRate){
 
         //get new value
-        $newValue = (int) round($money->subunits() * $exchangeRate, 0, $this->roundingMode);
+        $newValue = $money->value() * $exchangeRate;
 
         //create and return the new money
-        return new Money($newValue, $newCurrency);
+        return new Money($newValue, $newCurrency, true);
     }
 
     /**

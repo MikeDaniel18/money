@@ -378,17 +378,17 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
      */
     public function testExchangesMoneyToNewCurrencyCorrectly(){
 
-        //starting money
-        $startingMoney = new Money(1000, 'usd');
+        //setup usd
+        $usd = new Money(100);
 
-        //actual new money
-        $actualNewMoney = $this->accountant->exchange($startingMoney, 'eur', 1.23);
+        //exchange
+        $actual = $this->accountant->exchange($usd, 'eur', 0.87);
 
-        //expected new money
-        $expectedNewMoney = new Money(1230, 'eur');
+        //expected
+        $expected = new Money(87, 'eur');
 
         //test
-        $this->assertEquals($expectedNewMoney, $actualNewMoney, 'Accountant is not exchanging money to a new currency correctly.');
+        $this->assertEquals($expected, $actual, 'Accountant is not exchanging money to a new currency correctly.');
     }
 
     /**
