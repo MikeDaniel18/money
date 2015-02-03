@@ -155,6 +155,83 @@ class MoneyTest extends \PHPUnit_Framework_TestCase {
     }
 
     /**
+     * sets converted integer value correctly
+     */
+    public function testSetsConvertedIntegerValueCorrectly(){
+
+        //setup
+        $money = new Money(1234, 'usd', true);
+        $money2 = new Money(1234, 'bhd', true);
+        $money3 = new Money(1234, 'mga', true);
+
+        //message
+        $message = 'Money is not setting converted integers correctly.';
+
+        //test
+        $this->assertSame(123400, $money->subunits(), $message);
+        $this->assertSame(1234000, $money2->subunits(), $message);
+        $this->assertSame(6170, $money3->subunits(), $message);
+    }
+
+    /**
+     * sets converted float value correctly
+     */
+    public function testSetsConvertedFloatValueCorrectly(){
+
+        //setup
+        $money = new Money(1234.5678, 'usd', true);
+        $money2 = new Money(1234.5678, 'bhd', true);
+        $money3 = new Money(1234.5678, 'mga', true);
+
+        //message
+        $message = 'Money is not setting converted floats correctly.';
+
+        //test
+        $this->assertSame(123457, $money->subunits(), $message);
+        $this->assertSame(1234568, $money2->subunits(), $message);
+        $this->assertSame(6173, $money3->subunits(), $message);
+    }
+
+    /**
+     * sets converted string integer value correctly
+     */
+    public function testSetsConvertedStringIntegerValueCorrectly(){
+
+        //setup
+        $money = new Money('1234', 'usd', true);
+        $money2 = new Money('1234', 'bhd', true);
+        $money3 = new Money('1234', 'mga', true);
+
+        //message
+        $message = 'Money is not setting converted string integers correctly.';
+
+        //test
+        $this->assertSame(123400, $money->subunits(), $message);
+        $this->assertSame(1234000, $money2->subunits(), $message);
+        $this->assertSame(6170, $money3->subunits(), $message);
+    }
+
+    /**
+     * sets converted string float value correctly
+     */
+    public function testSetsConvertedStringFloatValueCorrectly(){
+
+        //setup
+        $money = new Money('1234.567', 'usd', true);
+        $money2 = new Money('1234.567', 'bhd', true);
+        $money3 = new Money('1234.567', 'mga', true);
+
+        //message
+        $message = 'Money is not setting converted string floats correctly.';
+
+        //test
+        $this->assertSame(123457, $money->subunits(), $message);
+        $this->assertSame(1234567, $money2->subunits(), $message);
+        $this->assertSame(6173, $money3->subunits(), $message);
+
+    }
+
+    /**
      * money value is inside integer bounds
      */
     public function testsOutsideIntegerBounds(){

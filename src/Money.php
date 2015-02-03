@@ -105,20 +105,35 @@ class Money implements JsonSerializable {
 
 		//value is float, convert and assign
 		elseif(is_float($value)){
-			$value = (int) round($value, 0);
-			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
+
+			//convert
+			$value = ($convert) ? $value * $this->currency->subunit() : $value;
+
+			//set
+			$this->subunits = (int) round($value, 0);
 		}
 
 		//value is an integer string
 		elseif(preg_match('/^[0-9]+$/', $value)){
+
+			//cast
 			$value = (int) $value;
+
+			//assign
 			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
 		}
 
 		//value is a float string
 		elseif(preg_match('/^[0-9]+(\.[0-9]+)?$/', $value)){
-			$value = (int) round($value, 0);
-			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
+
+			//cast
+			$value = (float) $value;
+
+			//convert
+			$value = ($convert) ? $value * $this->currency->subunit() : $value;
+
+			//assign
+			$this->subunits = (int) round($value, 0);
 		}
 
 		//problem
