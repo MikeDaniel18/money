@@ -209,7 +209,7 @@ class Accountant {
      * this a helper function, basically a wrapper for some others
      *
      * @param array $lines
-     * @param $taxRate
+     * @param float $taxRate
      * @param \browner12\money\Money $shipping
      * @param \browner12\money\Money $handling
      * @return \browner12\money\Money
