@@ -377,7 +377,7 @@ class Accountant {
      * @return string
      * @throws \browner12\money\exceptions\MoneyException
      */
-    private function isSameCurrency($monies){
+    private function isSameCurrency(array $monies){
 
         //what currency are we comparing
         $currencyToMatch = $monies[0]->getCurrency()->currency();
@@ -425,7 +425,7 @@ class Accountant {
      * @param array $monies
      * @return array
      */
-    private function filterMonies($monies){
+    private function filterMonies(array $monies){
 
         //remove any elements that are not money objects
         foreach($monies as $money){
