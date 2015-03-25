@@ -379,6 +379,11 @@ class Accountant {
      */
     private function isSameCurrency(array $monies){
 
+        //make sure monies is not empty
+        if(empty($monies)){
+            throw new MoneyException('Cannot compare currencies of an empty array.');
+        }
+
         //what currency are we comparing
         $currencyToMatch = $monies[0]->getCurrency()->currency();
 
@@ -426,6 +431,9 @@ class Accountant {
      * @return array
      */
     private function filterMonies(array $monies){
+
+        //initialize return
+        $filteredMonies = [];
 
         //remove any elements that are not money objects
         foreach($monies as $money){

@@ -500,4 +500,24 @@ class AccountantTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $sum, 'Accountant is not filtering monies correctly.');
     }
 
+    /**
+     * throws exception if no valid Money objects are passed to `filterMonies` method
+     */
+    public function testSummingNoMoneyObjectsThrowsException(){
+
+        //setup
+        $bad1 = 5;
+        $bad2 = 10;
+        $bad3 = 'eleven';
+
+        try{
+            $this->accountant->sum([$bad1, $bad2, $bad3]);
+        }
+        catch(MoneyException $e){
+            return true;
+        }
+
+        $this->fail('Accountant is not catching empty money arrays.');
+    }
+
 }
