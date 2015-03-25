@@ -3,11 +3,6 @@
 abstract class Currency {
 
 	/**
-	 * constructor
-	 */
-	public function __construct(){}
-
-	/**
 	 * get currency
 	 *
 	 * @return string
@@ -60,4 +55,5 @@ abstract class Currency {
 	public function __toString(){
 		return static::CURRENCY . ' (' . static::NAME . ')';
 	}
+
 }
