@@ -138,7 +138,7 @@ class Money implements JsonSerializable {
 
 		//problem
 		else{
-			throw new MoneyException('The value was not numeric.');
+			throw new MoneyException('The value "' . $value . '" was not numeric.');
 		}
 	}
 
@@ -155,7 +155,7 @@ class Money implements JsonSerializable {
 
 		//check class exists
 		if(!class_exists($currencyClass)){
-			throw new MoneyException('This currency does not exist.');
+			throw new MoneyException('The currency "' . $currency . '" does not exist.');
 		}
 
 		//assign currency
