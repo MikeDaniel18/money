@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class NPR extends Currency {
-
+class NPR extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class IQD extends Currency {
-
+class IQD extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class XAG extends Currency {
-
+class XAG extends Currency
+{
     /**
      * currency
      *

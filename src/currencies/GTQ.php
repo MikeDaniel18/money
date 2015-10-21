@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class GTQ extends Currency {
-
+class GTQ extends Currency
+{
     /**
      * currency
      *

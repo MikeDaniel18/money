@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class NAD extends Currency {
-
+class NAD extends Currency
+{
     /**
      * currency
      *

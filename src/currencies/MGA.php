@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class MGA extends Currency {
-
+class MGA extends Currency
+{
     /**
      * currency
      *

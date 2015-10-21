@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class AZN extends Currency {
-
+class AZN extends Currency
+{
     /**
      * currency
      *

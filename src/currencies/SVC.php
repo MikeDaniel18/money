@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class SVC extends Currency {
-
+class SVC extends Currency
+{
     /**
      * currency
      *

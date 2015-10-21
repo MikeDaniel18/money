@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class AOA extends Currency {
-
+class AOA extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class PKR extends Currency {
-
+class PKR extends Currency
+{
     /**
      * currency
      *

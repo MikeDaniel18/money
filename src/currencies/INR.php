@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class INR extends Currency {
-
+class INR extends Currency
+{
     /**
      * currency
      *

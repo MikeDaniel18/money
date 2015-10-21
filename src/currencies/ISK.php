@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class ISK extends Currency {
-
+class ISK extends Currency
+{
     /**
      * currency
      *

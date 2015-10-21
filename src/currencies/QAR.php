@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class QAR extends Currency {
-
+class QAR extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class BOB extends Currency {
-
+class BOB extends Currency
+{
     /**
      * currency
      *

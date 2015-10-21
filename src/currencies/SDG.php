@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class SDG extends Currency {
-
+class SDG extends Currency
+{
     /**
      * currency
      *

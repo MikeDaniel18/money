@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class MAD extends Currency {
-
+class MAD extends Currency
+{
     /**
      * currency
      *

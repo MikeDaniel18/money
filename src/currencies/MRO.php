@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class MRO extends Currency {
-
+class MRO extends Currency
+{
     /**
      * currency
      *

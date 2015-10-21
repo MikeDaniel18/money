@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class AWG extends Currency {
-
+class AWG extends Currency
+{
     /**
      * currency
      *

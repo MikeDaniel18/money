@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class XUA extends Currency {
-
+class XUA extends Currency
+{
     /**
      * currency
      *

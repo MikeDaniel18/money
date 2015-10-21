@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class NZD extends Currency {
-
+class NZD extends Currency
+{
     /**
      * currency
      *

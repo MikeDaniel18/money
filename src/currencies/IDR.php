@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class IDR extends Currency {
-
+class IDR extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class JOD extends Currency {
-
+class JOD extends Currency
+{
     /**
      * currency
      *

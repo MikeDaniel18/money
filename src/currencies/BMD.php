@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class BMD extends Currency {
-
+class BMD extends Currency
+{
     /**
      * currency
      *

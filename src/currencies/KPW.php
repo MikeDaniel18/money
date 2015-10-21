@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class KPW extends Currency {
-
+class KPW extends Currency
+{
     /**
      * currency
      *

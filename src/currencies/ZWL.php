@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class ZWL extends Currency {
-
+class ZWL extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CHW extends Currency {
-
+class CHW extends Currency
+{
     /**
      * currency
      *

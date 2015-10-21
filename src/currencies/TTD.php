@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class TTD extends Currency {
-
+class TTD extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CZK extends Currency {
-
+class CZK extends Currency
+{
     /**
      * currency
      *

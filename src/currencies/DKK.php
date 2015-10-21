@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class DKK extends Currency {
-
+class DKK extends Currency
+{
     /**
      * currency
      *

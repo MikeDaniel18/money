@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class AED extends Currency {
-
+class AED extends Currency
+{
     /**
      * currency
      *

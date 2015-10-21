@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class YER extends Currency {
-
+class YER extends Currency
+{
     /**
      * currency
      *

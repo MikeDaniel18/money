@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class FKP extends Currency {
-
+class FKP extends Currency
+{
     /**
      * currency
      *

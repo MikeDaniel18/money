@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class JPY extends Currency {
-
+class JPY extends Currency
+{
     /**
      * currency
      *

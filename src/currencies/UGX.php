@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class UGX extends Currency {
-
+class UGX extends Currency
+{
     /**
      * currency
      *

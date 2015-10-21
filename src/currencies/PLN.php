@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class PLN extends Currency {
-
+class PLN extends Currency
+{
     /**
      * currency
      *

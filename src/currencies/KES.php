@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class KES extends Currency {
-
+class KES extends Currency
+{
     /**
      * currency
      *

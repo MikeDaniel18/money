@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class VND extends Currency {
-
+class VND extends Currency
+{
     /**
      * currency
      *

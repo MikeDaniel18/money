@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class HUF extends Currency {
-
+class HUF extends Currency
+{
     /**
      * currency
      *

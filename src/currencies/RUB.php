@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class RUB extends Currency {
-
+class RUB extends Currency
+{
     /**
      * currency
      *

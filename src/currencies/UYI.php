@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class UYI extends Currency {
-
+class UYI extends Currency
+{
     /**
      * currency
      *

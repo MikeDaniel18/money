@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class VEF extends Currency {
-
+class VEF extends Currency
+{
     /**
      * currency
      *

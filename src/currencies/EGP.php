@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class EGP extends Currency {
-
+class EGP extends Currency
+{
     /**
      * currency
      *

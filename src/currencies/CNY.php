@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CNY extends Currency {
-
+class CNY extends Currency
+{
     /**
      * currency
      *

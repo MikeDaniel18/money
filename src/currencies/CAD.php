@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CAD extends Currency {
-
+class CAD extends Currency
+{
     /**
      * currency
      *

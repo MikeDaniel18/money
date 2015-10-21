@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class TRY extends Currency {
-
+class TRY extends Currency
+{
     /**
      * currency
      *

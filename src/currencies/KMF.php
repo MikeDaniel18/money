@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class KMF extends Currency {
-
+class KMF extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class WST extends Currency {
-
+class WST extends Currency
+{
     /**
      * currency
      *

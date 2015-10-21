@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class KZT extends Currency {
-
+class KZT extends Currency
+{
     /**
      * currency
      *

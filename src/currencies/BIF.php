@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class BIF extends Currency {
-
+class BIF extends Currency
+{
     /**
      * currency
      *

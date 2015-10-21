@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CVE extends Currency {
-
+class CVE extends Currency
+{
     /**
      * currency
      *

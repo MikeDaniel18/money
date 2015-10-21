@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class MXV extends Currency {
-
+class MXV extends Currency
+{
     /**
      * currency
      *

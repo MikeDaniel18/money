@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class XOF extends Currency {
-
+class XOF extends Currency
+{
     /**
      * currency
      *

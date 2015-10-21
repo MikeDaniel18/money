@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class LAK extends Currency {
-
+class LAK extends Currency
+{
     /**
      * currency
      *

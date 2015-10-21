@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CDF extends Currency {
-
+class CDF extends Currency
+{
     /**
      * currency
      *

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CUC extends Currency {
-
+class CUC extends Currency
+{
     /**
      * currency
      *

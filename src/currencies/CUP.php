@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CUP extends Currency {
-
+class CUP extends Currency
+{
     /**
      * currency
      *

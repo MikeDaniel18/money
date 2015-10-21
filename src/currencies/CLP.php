@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CLP extends Currency {
-
+class CLP extends Currency
+{
     /**
      * currency
      *

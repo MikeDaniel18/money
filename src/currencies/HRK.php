@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class HRK extends Currency {
-
+class HRK extends Currency
+{
     /**
      * currency
      *

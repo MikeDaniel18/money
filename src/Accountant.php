@@ -1,11 +1,9 @@
-<?php  namespace browner12\money;
+<?php namespace browner12\money;
 
 use browner12\money\exceptions\MoneyException;
-use browner12\money\interfaces\OrderLineInterface;
-use browner12\money\Money;
 
-class Accountant {
-
+class Accountant
+{
     /**
      * rounding mode
      *
@@ -18,8 +16,8 @@ class Accountant {
      *
      * @param int $roundingMode
      */
-    public function __construct($roundingMode = PHP_ROUND_HALF_UP){
-
+    public function __construct($roundingMode = PHP_ROUND_HALF_UP)
+    {
         //set rounding mode
         $this->setRoundingMode($roundingMode);
     }
@@ -30,8 +28,8 @@ class Accountant {
      * @param array $monies
      * @return \browner12\money\Money
      */
-    public function sum($monies){
-
+    public function sum($monies)
+    {
         //initialize total
         $total = 0;
 
@@ -42,7 +40,7 @@ class Accountant {
         $currency = $this->isSameCurrency($monies);
 
         //sum
-        foreach($monies as $money){
+        foreach ($monies as $money) {
             $total += $money->subunits();
         }
 
@@ -57,8 +55,8 @@ class Accountant {
      * @param \browner12\money\Money $addend2
      * @return \browner12\money\Money
      */
-    public function add(Money $addend1, Money $addend2){
-
+    public function add(Money $addend1, Money $addend2)
+    {
         //check currencies match
         $currency = $this->isSameCurrency([$addend1, $addend2]);
 
@@ -76,8 +74,8 @@ class Accountant {
      * @param \browner12\money\Money $subtrahend
      * @return \browner12\money\Money
      */
-    public function subtract(Money $minuend, Money $subtrahend){
-
+    public function subtract(Money $minuend, Money $subtrahend)
+    {
         //check currencies match
         $currency = $this->isSameCurrency([$minuend, $subtrahend]);
 
@@ -92,13 +90,13 @@ class Accountant {
      * multiply
      *
      * @param \browner12\money\Money $multiplicand
-     * @param float $multiplier
+     * @param float                  $multiplier
      * @return \browner12\money\Money
      */
-    public function multiply(Money $multiplicand, $multiplier){
-
+    public function multiply(Money $multiplicand, $multiplier)
+    {
         //calculate product
-        $product = (int) round($multiplicand->subunits() * $multiplier, 0, $this->roundingMode);
+        $product = (int)round($multiplicand->subunits() * $multiplier, 0, $this->roundingMode);
 
         //create and return new money
         return new Money($product, $multiplicand->getCurrency()->currency());
@@ -110,8 +108,9 @@ class Accountant {
      * @param \browner12\money\Money $money
      * @return \browner12\money\Money
      */
-    public function negate(Money $money){
-
+    public function negate(Money $money)
+    {
+        //negate
         $newValue = -($money->subunits());
 
         //create and return new money
@@ -126,11 +125,11 @@ class Accountant {
      * a new money object worth $95.
      *
      * @param \browner12\money\Money $money
-     * @param float $percentage
+     * @param float                  $percentage
      * @return \browner12\money\Money
      */
-    public function discount(Money $money, $percentage){
-
+    public function discount(Money $money, $percentage)
+    {
         //determine multiplier
         $multiplier = (100 - $percentage) / 100;
 
@@ -146,11 +145,11 @@ class Accountant {
      * tax rate is 5.5%, pass in 5.5
      *
      * @param \browner12\money\Money $money
-     * @param float $taxRate
+     * @param float                  $taxRate
      * @return \browner12\money\Money
      */
-    public function tax(Money $money, $taxRate){
-
+    public function tax(Money $money, $taxRate)
+    {
         //convert tax rate to multiplier
         $multiplier = $taxRate / 100;
 
@@ -166,10 +165,10 @@ class Accountant {
      * @param array $lines
      * @return \browner12\money\Money
      */
-    public function subtotal($lines){
-
+    public function subtotal($lines)
+    {
         //calculate line totals
-        foreach($lines as $line){
+        foreach ($lines as $line) {
             $lineTotals[] = $this->multiply($line->getUnitPrice(), $line->getQuantity());
         }
 
@@ -192,10 +191,10 @@ class Accountant {
      * @param array $lines
      * @return \browner12\money\Money
      */
-    public function subtotalFromArray($lines){
-
+    public function subtotalFromArray($lines)
+    {
         //calculate line totals
-        foreach($lines as $line){
+        foreach ($lines as $line) {
             $lineTotals[] = $this->multiply($line['unitPrice'], $line['quantity']);
         }
 
@@ -208,14 +207,14 @@ class Accountant {
      *
      * this a helper function, basically a wrapper for some others
      *
-     * @param array $lines
-     * @param float $taxRate
+     * @param array                  $lines
+     * @param float                  $taxRate
      * @param \browner12\money\Money $shipping
      * @param \browner12\money\Money $handling
      * @return \browner12\money\Money
      */
-    public function total($lines, $taxRate, Money $shipping = null, Money $handling = null){
-
+    public function total($lines, $taxRate, Money $shipping = null, Money $handling = null)
+    {
         //calculate subtotal
         $subtotal = $this->subtotal($lines);
 
@@ -236,30 +235,30 @@ class Accountant {
      * allocate
      *
      * @param \browner12\money\Money $money
-     * @param int $divisions
+     * @param int                    $divisions
      * @return array
      */
-    public function allocate(Money $money, $divisions){
-
+    public function allocate(Money $money, $divisions)
+    {
         //initialize
         $return = [];
 
         //divide
-        $allocation = (int) floor($money->subunits() / $divisions);
+        $allocation = (int)floor($money->subunits() / $divisions);
 
         //remainder
         $remainder = $money->subunits() % $divisions;
 
         //give each division an equal amount
-        for($a=1;$a<=$divisions;$a++){
+        for ($a = 1; $a <= $divisions; $a++) {
 
             //gets a remainder
-            if($a <= $remainder){
+            if ($a <= $remainder) {
                 $return[] = new Money($allocation + 1);
             }
 
             //does not get a remainder
-            else{
+            else {
                 $return[] = new Money($allocation);
             }
         }
@@ -273,21 +272,21 @@ class Accountant {
      *
      * @todo WIP
      * @param \browner12\money\Money $money
-     * @param array $ratios
+     * @param array                  $ratios
      * @return array
      */
-    public function allocateByRatios(Money $money, $ratios){
-
+    public function allocateByRatios(Money $money, $ratios)
+    {
         //total
         $total = array_sum($ratios);
 
         //loop
-        foreach($ratios as $ratio){
+        foreach ($ratios as $ratio) {
             $allocations[] = $money->subunits() * $ratio / $total;
         }
 
         //make new money objects
-        foreach($allocations as $allocation){
+        foreach ($allocations as $allocation) {
             $return[] = new Money($allocation, $money->getCurrency()->currency());
         }
 
@@ -301,12 +300,12 @@ class Accountant {
      * the exchange rate is in terms of 1 original currency = x new currency
      *
      * @param \browner12\money\Money $money
-     * @param string $newCurrency
-     * @param float $exchangeRate
+     * @param string                 $newCurrency
+     * @param float                  $exchangeRate
      * @return \browner12\money\Money
      */
-    public function exchange(Money $money, $newCurrency, $exchangeRate){
-
+    public function exchange(Money $money, $newCurrency, $exchangeRate)
+    {
         //get new value
         $newValue = $money->value() * $exchangeRate;
 
@@ -323,13 +322,13 @@ class Accountant {
      * @param \browner12\money\Money $money2
      * @return int
      */
-    public function compare(Money $money1, Money $money2){
-
+    public function compare(Money $money1, Money $money2)
+    {
         //check currencies
         $this->isSameCurrency([$money1, $money2]);
 
         //equal to
-        if($money1->subunits() == $money2->subunits()){
+        if ($money1->subunits() == $money2->subunits()) {
             return 0;
         }
 
@@ -344,7 +343,8 @@ class Accountant {
      * @param \browner12\money\Money $money2
      * @return bool
      */
-    public function isGreaterThan(Money $money1, Money $money2){
+    public function isGreaterThan(Money $money1, Money $money2)
+    {
         return ($this->compare($money1, $money2) === 1) ? true : false;
     }
 
@@ -355,7 +355,8 @@ class Accountant {
      * @param \browner12\money\Money $money2
      * @return bool
      */
-    public function isLessThan(Money $money1, Money $money2){
+    public function isLessThan(Money $money1, Money $money2)
+    {
         return ($this->compare($money1, $money2) === -1) ? true : false;
     }
 
@@ -366,7 +367,8 @@ class Accountant {
      * @param \browner12\money\Money $money2
      * @return bool
      */
-    public function isEqualTo(Money $money1, Money $money2){
+    public function isEqualTo(Money $money1, Money $money2)
+    {
         return ($this->compare($money1, $money2) === 0) ? true : false;
     }
 
@@ -377,10 +379,10 @@ class Accountant {
      * @return string
      * @throws \browner12\money\exceptions\MoneyException
      */
-    private function isSameCurrency(array $monies){
-
+    private function isSameCurrency(array $monies)
+    {
         //make sure monies is not empty
-        if(empty($monies)){
+        if (empty($monies)) {
             throw new MoneyException('Cannot compare currencies of an empty array.');
         }
 
@@ -388,8 +390,8 @@ class Accountant {
         $currencyToMatch = $monies[0]->getCurrency()->currency();
 
         //check they all match the first one
-        foreach($monies as $money){
-            if($money->getCurrency()->currency() != $currencyToMatch){
+        foreach ($monies as $money) {
+            if ($money->getCurrency()->currency() != $currencyToMatch) {
                 throw new MoneyException('Currencies do not match.');
             }
         }
@@ -404,8 +406,8 @@ class Accountant {
      * @param int $roundingMode
      * @throws \browner12\money\exceptions\MoneyException
      */
-    private function setRoundingMode($roundingMode){
-
+    private function setRoundingMode($roundingMode)
+    {
         //rounding modes
         $modes = [
             PHP_ROUND_HALF_UP,
@@ -415,7 +417,7 @@ class Accountant {
         ];
 
         //check that it is valid
-        if(!in_array($roundingMode, $modes)){
+        if (!in_array($roundingMode, $modes)) {
             throw new MoneyException('Invalid rounding mode.');
         }
 
@@ -430,15 +432,15 @@ class Accountant {
      * @param array $monies
      * @return array
      */
-    private function filterMonies(array $monies){
-
+    private function filterMonies(array $monies)
+    {
         //initialize return
         $filteredMonies = [];
 
         //remove any elements that are not money objects
-        foreach($monies as $money){
+        foreach ($monies as $money) {
 
-            if($money instanceof Money AND !is_null($money)){
+            if ($money instanceof Money AND !is_null($money)) {
                 $filteredMonies[] = $money;
             }
         }

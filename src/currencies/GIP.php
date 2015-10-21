@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class GIP extends Currency {
-
+class GIP extends Currency
+{
     /**
      * currency
      *

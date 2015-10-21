@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class CRC extends Currency {
-
+class CRC extends Currency
+{
     /**
      * currency
      *

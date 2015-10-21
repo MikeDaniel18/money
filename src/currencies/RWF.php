@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class RWF extends Currency {
-
+class RWF extends Currency
+{
     /**
      * currency
      *

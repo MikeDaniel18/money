@@ -4,208 +4,212 @@ use browner12\money\exceptions\MoneyException;
 use JsonSerializable;
 use NumberFormatter;
 
-class Money implements JsonSerializable {
+class Money implements JsonSerializable
+{
+    /**
+     * subunits
+     *
+     * @var int
+     */
+    private $subunits;
 
-	/**
-	 * subunits
-	 *
-	 * @var int
-	 */
-	private $subunits;
+    /**
+     * currency
+     *
+     * @var \browner12\money\currencies\Currency
+     */
+    private $currency;
 
-	/**
-	 * currency
-	 *
-	 * @var \browner12\money\currencies\Currency
-	 */
-	private $currency;
+    /**
+     * constructor
+     *
+     * @param int    $value
+     * @param string $currency
+     * @param bool   $convert
+     * @throws \browner12\money\exceptions\MoneyException
+     */
+    public function __construct($value, $currency = 'usd', $convert = false)
+    {
+        //set currency
+        $this->setCurrency($currency);
 
-	/**
-	 * constructor
-	 *
-	 * @param int $value
-	 * @param string $currency
-	 * @param bool $convert
-	 * @throws \browner12\money\exceptions\MoneyException
-	 */
-	public function __construct($value, $currency = 'usd', $convert = false){
+        //set value
+        $this->setValue($value, $convert);
+    }
 
-		//set currency
-		$this->setCurrency($currency);
+    /**
+     * get value
+     *
+     * this is a float value in the base unit of the currency
+     *
+     * @return float
+     */
+    public function value()
+    {
+        return round($this->subunits / $this->currency->subunit(), $this->currency->precision());
+    }
 
-		//set value
-		$this->setValue($value, $convert);
-	}
+    /**
+     * get subunit value
+     *
+     * this is an integer value in the sub unit of the currency
+     *
+     * @return int
+     */
+    public function subunits()
+    {
+        return $this->subunits;
+    }
 
-	/**
-	 * get value
-	 *
-	 * this is a float value in the base unit of the currency
-	 *
-	 * @return float
-	 */
-	public function value(){
-		return round($this->subunits / $this->currency->subunit(), $this->currency->precision());
-	}
+    /**
+     * get the value formatted according to the locale
+     *
+     * @param string $locale
+     * @return string
+     */
+    public function format($locale = 'en_US')
+    {
+        //create international formatter
+        $formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
 
-	/**
-	 * get subunit value
-	 *
-	 * this is an integer value in the sub unit of the currency
-	 *
-	 * @return int
-	 */
-	public function subunits(){
-		return $this->subunits;
-	}
+        //return
+        return $formatter->formatCurrency($this->value(), $this->currency->currency());
+    }
 
-	/**
-	 * get the value formatted according to the locale
-	 *
-	 * @param string $locale
-	 * @return string
-	 */
-	public function format($locale = 'en_US'){
+    /**
+     * get currency
+     *
+     * @return \browner12\money\currencies\Currency
+     */
+    public function getCurrency()
+    {
+        return $this->currency;
+    }
 
-		//create international formatter
-		$formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
+    /**
+     * set the value of the money object
+     *
+     * we will assumed the value is passed to us in the subunit value i.e. USDs will be passed as cents
+     * if the user wants us to try and convert from the base unit (USD), we will.
+     *
+     * @param int  $value
+     * @param bool $convert
+     * @throws \browner12\money\exceptions\MoneyException
+     */
+    private function setValue($value, $convert = false)
+    {
+        //check in bounds
+        $this->isInsideIntegerBounds($value);
 
-		//return
-		return $formatter->formatCurrency($this->value(), $this->currency->currency());
-	}
+        //value is integer, simply assign
+        if (is_int($value)) {
+            $this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
+        }
 
-	/**
-	 * get currency
-	 *
-	 * @return \browner12\money\currencies\Currency
-	 */
-	public function getCurrency(){
-		return $this->currency;
-	}
+        //value is float, convert and assign
+        elseif (is_float($value)) {
 
-	/**
-	 * set the value of the money object
-	 *
-	 * we will assumed the value is passed to us in the subunit value i.e. USDs will be passed as cents
-	 * if the user wants us to try and convert from the base unit (USD), we will.
-	 *
-	 * @param int $value
-	 * @param bool $convert
-	 * @throws \browner12\money\exceptions\MoneyException
-	 */
-	private function setValue($value, $convert = false){
+            //convert
+            $value = ($convert) ? $value * $this->currency->subunit() : $value;
 
-		//check in bounds
-		$this->isInsideIntegerBounds($value);
+            //set
+            $this->subunits = (int)round($value, 0);
+        }
 
-		//value is integer, simply assign
-		if(is_int($value)){
-			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
-		}
+        //value is an integer string
+        elseif (preg_match('/^[0-9]+$/', $value)) {
 
-		//value is float, convert and assign
-		elseif(is_float($value)){
+            //cast
+            $value = (int)$value;
 
-			//convert
-			$value = ($convert) ? $value * $this->currency->subunit() : $value;
+            //assign
+            $this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
+        }
 
-			//set
-			$this->subunits = (int) round($value, 0);
-		}
+        //value is a float string
+        elseif (preg_match('/^[0-9]+(\.[0-9]+)?$/', $value)) {
 
-		//value is an integer string
-		elseif(preg_match('/^[0-9]+$/', $value)){
+            //cast
+            $value = (float)$value;
 
-			//cast
-			$value = (int) $value;
+            //convert
+            $value = ($convert) ? $value * $this->currency->subunit() : $value;
 
-			//assign
-			$this->subunits = ($convert) ? $value * $this->currency->subunit() : $value;
-		}
+            //assign
+            $this->subunits = (int)round($value, 0);
+        }
 
-		//value is a float string
-		elseif(preg_match('/^[0-9]+(\.[0-9]+)?$/', $value)){
+        //problem
+        else {
+            throw new MoneyException('The value "' . $value . '" was not numeric.');
+        }
+    }
 
-			//cast
-			$value = (float) $value;
+    /**
+     * currency is passed as a string, and we will handle instantiating the specific currency class
+     *
+     * @param $currency
+     * @throws \browner12\money\exceptions\MoneyException
+     */
+    private function setCurrency($currency)
+    {
+        //currency class
+        $currencyClass = '\\browner12\\money\\currencies\\' . strtoupper($currency);
 
-			//convert
-			$value = ($convert) ? $value * $this->currency->subunit() : $value;
+        //check class exists
+        if (!class_exists($currencyClass)) {
+            throw new MoneyException('The currency "' . $currency . '" does not exist.');
+        }
 
-			//assign
-			$this->subunits = (int) round($value, 0);
-		}
+        //assign currency
+        $this->currency = new $currencyClass();
+    }
 
-		//problem
-		else{
-			throw new MoneyException('The value "' . $value . '" was not numeric.');
-		}
-	}
+    /**
+     * check that value is inside integer bounds
+     *
+     * this seems to be difficult/impossible to test for, since integers above the bounds
+     * are converted to floats internally. the float is not evaluating greater than the
+     * PHP_INT_MAX. it is however evaluating equal to. therefore we'll test >= for now
+     * and just miss out on that 1 extra integer
+     *
+     * @param integer $value
+     * @return bool
+     * @throws \browner12\money\exceptions\MoneyException
+     */
+    private function isInsideIntegerBounds($value)
+    {
+        //outside of bounds
+        if (abs($value) >= PHP_INT_MAX) {
+            throw new MoneyException('Value is outside of PHP integer bounds.');
+        }
 
-	/**
-	 * currency is passed as a string, and we will handle instantiating the specific currency class
-	 *
-	 * @param $currency
-	 * @throws \browner12\money\exceptions\MoneyException
-	 */
-	private function setCurrency($currency){
+        //inside of bounds
+        return true;
+    }
 
-		//currency class
-		$currencyClass = '\\browner12\\money\\currencies\\' . strtoupper($currency);
+    /**
+     * to json method
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'value'    => $this->value(),
+            'subunits' => $this->subunits(),
+            'currency' => $this->currency->currency(),
+        ];
+    }
 
-		//check class exists
-		if(!class_exists($currencyClass)){
-			throw new MoneyException('The currency "' . $currency . '" does not exist.');
-		}
-
-		//assign currency
-		$this->currency = new $currencyClass();
-	}
-
-	/**
-	 * check that value is inside integer bounds
-	 *
-	 * this seems to be difficult/impossible to test for, since integers above the bounds
-	 * are converted to floats internally. the float is not evaluating greater than the
-	 * PHP_INT_MAX. it is however evaluating equal to. therefore we'll test >= for now
-	 * and just miss out on that 1 extra integer
-	 *
-	 * @param integer $value
-	 * @return bool
-	 * @throws \browner12\money\exceptions\MoneyException
-	 */
-	private function isInsideIntegerBounds($value){
-
-		//outside of bounds
-		if(abs($value) >= PHP_INT_MAX){
-			throw new MoneyException('Value is outside of PHP integer bounds.');
-		}
-
-		//inside of bounds
-		return true;
-	}
-
-	/**
-	 * to json method
-	 *
-	 * @return array
-	 */
-	public function jsonSerialize(){
-
-		return [
-			'value' => $this->value(),
-			'subunits' => $this->subunits(),
-			'currency' => $this->currency->currency(),
-		];
-	}
-
-	/**
-	 * to string magic method
-	 *
-	 * @return string
-	 */
-	public function __toString(){
-		return $this->format();
-	}
+    /**
+     * to string magic method
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->format();
+    }
 
 }

@@ -1,7 +1,7 @@
 <?php namespace browner12\money\interfaces;
 
-interface OrderLineInterface {
-
+interface OrderLineInterface
+{
     /**
      * get the quantity of a product being ordered
      *

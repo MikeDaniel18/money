@@ -1,7 +1,7 @@
 <?php namespace browner12\money\currencies;
 
-class TZS extends Currency {
-
+class TZS extends Currency
+{
     /**
      * currency
      *
