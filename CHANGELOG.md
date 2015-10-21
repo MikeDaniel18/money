@@ -4,6 +4,11 @@ All notable changes to `money` will be documented in this file. Updates should f
 
 ## [UNRELEASED]
 
+## [1.0.1] - 2015-10-21
+
+### Changed
+- PSR1 / PSR2 compliance.
+
 ## [1.0.0] - 2015-07-10
 
 ### Added
@@ -27,6 +32,7 @@ All notable changes to `money` will be documented in this file. Updates should f
 ### Added
 - Initial commit.
 
-[unreleased]: https://github.com/browner12/money/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/browner12/money/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/browner12/money/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/browner12/money/compare/v0.1.1...v1.0.0
 [0.1.1]: https://github.com/browner12/money/compare/v0.1.0...v0.1.1
