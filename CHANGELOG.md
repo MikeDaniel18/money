@@ -4,6 +4,9 @@ All notable changes to `money` will be documented in this file. Updates should f
 
 ## [UNRELEASED]
 
+## Removed
+- Continuous integration testing for PHP 5.4, which is EOL
+
 ## [1.0.2] - 2015-12-05
 
 ### Changed
