@@ -4,6 +4,11 @@ All notable changes to `money` will be documented in this file. Updates should f
 
 ## [UNRELEASED]
 
+## [1.0.2] - 2015-12-05
+
+### Changed
+- Bump PHP requirement to >=5.5.0, as 5.4 is EOL.
+
 ## [1.0.1] - 2015-10-21
 
 ### Changed
@@ -32,7 +37,8 @@ All notable changes to `money` will be documented in this file. Updates should f
 ### Added
 - Initial commit.
 
-[unreleased]: https://github.com/browner12/money/compare/v1.0.1...HEAD
+[unreleased]: https://github.com/browner12/money/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/browner12/money/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/browner12/money/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/browner12/money/compare/v0.1.1...v1.0.0
 [0.1.1]: https://github.com/browner12/money/compare/v0.1.0...v0.1.1
