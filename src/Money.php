@@ -211,5 +211,4 @@ class Money implements JsonSerializable
     {
         return $this->format();
     }
-
 }
