@@ -1,3 +1,9 @@
+This package has been ABANDONED. We finally have a good community package for money, so check out [money/money](https://github.com/moneyphp/money). 
+
+This repo was marked ABANDONED on May 23 2017. It will remain available until May 23 2018. Please refactor it out of your projects prior to then.
+
+Thanks!
+
 # money
 
 [![Latest Version](https://img.shields.io/github/release/browner12/money.svg?style=flat-square)](https://github.com/browner12/money/releases)
